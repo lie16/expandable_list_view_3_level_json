@@ -26,21 +26,13 @@ class _JSONExpandableListViewState extends State {
 
   Future<List<Menu>> fetchJSONData() async {
     var jsonResponse = await GetApi().getData(apiUrl);
-
-    //Todo handling response code, separate to function
     if (jsonResponse.statusCode == 200) {
       final jsonDecode = json.decode(jsonResponse.body);
       log(jsonDecode.toString());
-      // final jsonItems = jsonDecode.cast<Map<String, dynamic>>();
-      // log(jsonItems);
       List<dynamic> list = jsonDecode['data']['menus'];
       log(list.toString());
       List<Menu> result = list.map((f) => Menu.fromJson(f)).toList();
       log("decode ok");
-      // List<Profile> profile = jsonDecode.map<Profile>((json) {
-      //   return Profile.fromJson(json);
-      // }).toList();
-      log("mapping ok");
       return result;
     } else {
       throw Exception('Failed to load data from internet');
